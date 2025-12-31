@@ -82,11 +82,14 @@ const tourSchema = new mongoose.Schema({
 });
 
 // Create slug from title before saving
-tourSchema.pre('save', function(next) {
+tourSchema.pre('save', function () {
   if (this.isModified('title')) {
-    this.slug = this.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    this.slug = this.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
   }
-  next();
 });
+
 
 module.exports = mongoose.model('Tour', tourSchema);

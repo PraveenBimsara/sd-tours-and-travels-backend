@@ -11,10 +11,10 @@ const {
 } = require('../controllers/tourController');
 const { protect } = require('../middleware/authMiddleware');
 
-// Public routes
-router.get('/', getTours);
+// Public routes - specific routes FIRST
 router.get('/featured/list', getFeaturedTours);
 router.get('/slug/:slug', getTourBySlug);
+router.get('/', getTours);
 router.get('/:id', getTour);
 
 // Protected routes (Admin only)

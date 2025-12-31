@@ -22,12 +22,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
-  app.use('/api/tours', require('./routes/tourRoutes'));
-  app.use('/api/day-tours', require('./routes/dayTourRoutes'));
-  app.use('/api/bookings', require('./routes/bookingRoutes'));
-  app.use('/api/testimonials', require('./routes/testimonialRoutes'));
-  app.use('/api/contact', require('./routes/contactRoutes'));
-  app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/tours', require('./routes/tourRoutes'));
+app.use('/api/day-tours', require('./routes/dayTourRoutes'));
+app.use('/api/bookings', require('./routes/bookingRoutes'));
+app.use('/api/testimonials', require('./routes/testimonialRoutes'));
+app.use('/api/contact', require('./routes/contactRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'));
 
 // Welcome route
 app.get('/', (req, res) => {

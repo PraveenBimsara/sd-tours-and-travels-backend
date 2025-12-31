@@ -17,22 +17,32 @@ const protect = async (req, res, next) => {
       req.admin = await Admin.findById(decoded.id).select('-password');
 
       if (!req.admin) {
-        return res.status(401).json({ message: 'Not authorized, admin not found' });
+        return res.status(401).json({ 
+          success: false,
+          message: 'Not authorized, admin not found' 
+        });
       }
 
       if (!req.admin.isActive) {
-        return res.status(401).json({ message: 'Admin account is inactive' });
+        return res.status(401).json({ 
+          success: false,
+          message: 'Admin account is inactive' 
+        });
       }
 
-      next();
+      next(); // ← Make sure this is called!
     } catch (error) {
-      console.error(error);
-      return res.status(401).json({ message: 'Not authorized, token failed' });
+      console.error('Auth error:', error);
+      return res.status(401).json({ 
+        success: false,
+        message: 'Not authorized, token failed' 
+      });
     }
-  }
-
-  if (!token) {
-    return res.status(401).json({ message: 'Not authorized, no token' });
+  } else {
+    return res.status(401).json({ 
+      success: false,
+      message: 'Not authorized, no token provided' 
+    });
   }
 };
 

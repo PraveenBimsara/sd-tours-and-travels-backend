@@ -138,6 +138,7 @@ const createTour = async (req, res) => {
   }
 };
 
+
 // @desc    Update tour
 // @route   PUT /api/tours/:id
 // @access  Private/Admin
