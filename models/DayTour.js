@@ -60,11 +60,10 @@ const dayTourSchema = new mongoose.Schema({
 });
 
 // Create slug from title
-dayTourSchema.pre('save', function(next) {
+dayTourSchema.pre('save', function() {
   if (this.isModified('title')) {
     this.slug = this.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   }
-  next();
 });
 
 module.exports = mongoose.model('DayTour', dayTourSchema);
