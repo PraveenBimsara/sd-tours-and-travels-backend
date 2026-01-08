@@ -1,6 +1,7 @@
 const Booking = require('../models/Booking');
 const Tour = require('../models/Tour');
 const DayTour = require('../models/DayTour');
+const { sendBookingConfirmation, sendAdminNotification } = require('../config/email');
 
 // @desc    Create new booking
 // @route   POST /api/bookings
@@ -33,12 +34,37 @@ const createBooking = async (req, res) => {
       travelDetails
     });
 
+    // Send confirmation email to customer and notification to admin
+    try {
+      // Prepare booking data for emails
+      const bookingEmailData = {
+        ...booking.toObject(),
+        tourType,
+        tourTitle: tour.title,
+      };
+
+      // Send emails (don't wait for them to complete)
+      sendBookingConfirmation(bookingEmailData).catch(err => 
+        console.error('Error sending customer confirmation email:', err)
+      );
+      
+      sendAdminNotification(bookingEmailData).catch(err => 
+        console.error('Error sending admin notification email:', err)
+      );
+
+      console.log('✅ Booking emails queued for sending');
+    } catch (emailError) {
+      // Log error but don't fail the booking
+      console.error('Email sending error:', emailError);
+    }
+
     res.status(201).json({
       success: true,
       message: 'Booking inquiry submitted successfully! We will contact you soon.',
       data: booking
     });
   } catch (error) {
+    console.error('Booking creation error:', error);
     res.status(400).json({
       success: false,
       message: error.message
