@@ -190,12 +190,12 @@ const sendBookingConfirmation = async (bookingData) => {
         </div>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="https://wa.me/94774064437" class="button">💬 Chat with Us on WhatsApp</a>
+          <a href="https://wa.me/94778875696" class="button">💬 Chat with Us on WhatsApp</a>
         </div>
         
         <p style="color: #666; font-size: 14px;">
           <strong>Need immediate assistance?</strong><br>
-          Call us: +94 77 406 4437<br>
+          Call us: +94 77 887 5696<br>
           Email: info@sdtours.lk
         </p>
       </div>
@@ -237,8 +237,8 @@ WHAT'S NEXT?
 Our travel experts will contact you shortly to confirm availability, provide pricing, and answer any questions.
 
 Need immediate assistance?
-Call: +94 77 406 4437
-WhatsApp: https://wa.me/94774064437
+Call: +94 77 887 5696
+WhatsApp: https://wa.me/94778875696
 
 Best regards,
 SD Tours & Travel Team
