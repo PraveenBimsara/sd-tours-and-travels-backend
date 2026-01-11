@@ -13,7 +13,7 @@ exports.sendContactEmail = async ({ name, email, phone, subject, message }) => {
 
   // Email to ADMIN
   await transporter.sendMail({
-    from: `"Website Contact" <${process.env.EMAIL_USER}>`,
+    from: `"SD Tours & Travel Contact" <${process.env.EMAIL_USER}>`,
     to: process.env.ADMIN_EMAIL,
     subject: `New Contact Message: ${subject}`,
     html: `

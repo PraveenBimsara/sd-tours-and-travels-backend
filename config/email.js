@@ -196,7 +196,7 @@ const sendBookingConfirmation = async (bookingData) => {
         <p style="color: #666; font-size: 14px;">
           <strong>Need immediate assistance?</strong><br>
           Call us: +94 77 887 5696<br>
-          Email: info@sdtours.lk
+          Email: sdtoursandtravelcompany@gmail.com
         </p>
       </div>
       
