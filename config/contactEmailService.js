@@ -1,5 +1,6 @@
-// contactEmailService.js
-const transporter = require('./email').transporter || require('nodemailer').createTransport({
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
@@ -7,39 +8,34 @@ const transporter = require('./email').transporter || require('nodemailer').crea
   },
 });
 
-const sendContactEmail = async ({ name, email, phone, subject, message }) => {
-  try {
-    // Email to admin
-    await transporter.sendMail({
-      from: `"SD Tours Contact" <${process.env.EMAIL_USER}>`,
-      to: process.env.ADMIN_EMAIL,
-      subject: `New Contact Message: ${subject}`,
-      html: `
-        <h3>New Contact Message</h3>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong><br/>${message}</p>
-      `,
-    });
+exports.sendContactEmail = async ({ name, email, phone, subject, message }) => {
+  await transporter.verify();
 
-    // Auto-reply to user
-    await transporter.sendMail({
-      from: `"SD Tours & Travel" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: 'We received your message',
-      html: `
-        <p>Hi ${name},</p>
-        <p>Thank you for contacting us. We have received your message and will get back to you shortly.</p>
-        <p>Best regards,<br/>SD Tours & Travel Team</p>
-      `,
-    });
+  // Email to ADMIN
+  await transporter.sendMail({
+    from: `"SD Tours & Travel Contact" <${process.env.EMAIL_USER}>`,
+    to: process.env.ADMIN_EMAIL,
+    subject: `New Contact Message: ${subject}`,
+    html: `
+      <h3>New Contact Message</h3>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Phone:</strong> ${phone}</p>
+      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Message:</strong><br/>${message}</p>
+    `,
+  });
 
-    console.log('Contact emails sent successfully.');
-  } catch (error) {
-    console.error('Error sending contact emails:', error);
-  }
+  // Auto-reply to USER
+  await transporter.sendMail({
+    from: `"SD Tours & Travel" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: 'We received your message',
+    html: `
+      <p>Hi ${name},</p>
+      <p>Thank you for contacting us. We have received your message and will get back to you shortly.</p>
+      <br/>
+      <p>Best regards,<br/>Your Team</p>
+    `,
+  });
 };
-
-module.exports = { sendContactEmail };
