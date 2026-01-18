@@ -1,4 +1,4 @@
-const transporter = require('./mailer');
+const transporter = require('../utils/mailer');
 
 /**
  * Send booking confirmation email to customer
