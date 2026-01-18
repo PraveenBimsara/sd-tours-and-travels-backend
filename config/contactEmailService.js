@@ -1,36 +1,31 @@
-const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.sendContactEmail = async ({ name, email, phone, subject, message }) => {
-  // ADMIN EMAIL
-  await transporter.sendMail({
-    from: `"SD Tours & Travel Contact" <${process.env.EMAIL_USER}>`,
+  // Email to ADMIN
+  await sgMail.send({
     to: process.env.ADMIN_EMAIL,
+    from: process.env.EMAIL_FROM,
     subject: `New Contact Message: ${subject}`,
     html: `
-      <h3>New Contact Message</h3>
-      <p><b>Name:</b> ${name}</p>
-      <p><b>Email:</b> ${email}</p>
-      <p><b>Phone:</b> ${phone}</p>
-      <p><b>Message:</b><br/>${message}</p>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Phone:</strong> ${phone}</p>
+      <p>${message}</p>
     `,
   });
 
-  // AUTO REPLY
-  await transporter.sendMail({
-    from: `"SD Tours & Travel" <${process.env.EMAIL_USER}>`,
+  // Auto reply to USER
+  await sgMail.send({
     to: email,
+    from: process.env.EMAIL_FROM,
     subject: 'We received your message',
     html: `
       <p>Hi ${name},</p>
-      <p>Thank you for contacting SD Tours & Travel. We’ll reply shortly.</p>
+      <p>Thank you for contacting SD Tours & Travel. We will get back to you shortly.</p>
+      <br/>
+      <p>Best regards,<br/>SD Tours & Travel</p>
     `,
   });
 };
