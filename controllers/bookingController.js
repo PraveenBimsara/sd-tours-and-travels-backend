@@ -1,7 +1,7 @@
 const Booking = require('../models/Booking');
 const Tour = require('../models/Tour');
 const DayTour = require('../models/DayTour');
-const { sendBookingConfirmation, sendAdminNotification } = require('../config/email');
+const { sendBookingConfirmation, sendAdminNotification } = require('../utils/mailer');
 
 // @desc    Create new booking
 // @route   POST /api/bookings

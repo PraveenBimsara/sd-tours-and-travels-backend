@@ -1,30 +1,36 @@
-const transporter = require('../utils/mailer');
+const nodemailer = require('nodemailer');
 
-const sendContactEmail = async ({
-  name,
-  email,
-  subject,
-  message,
-}) => {
-  const mailOptions = {
-    from: process.env.EMAIL_FROM,
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+exports.sendContactEmail = async ({ name, email, phone, subject, message }) => {
+  // ADMIN EMAIL
+  await transporter.sendMail({
+    from: `"SD Tours & Travel Contact" <${process.env.EMAIL_USER}>`,
     to: process.env.ADMIN_EMAIL,
-    replyTo: email,
-    subject: subject || 'New Contact Form Submission',
+    subject: `New Contact Message: ${subject}`,
     html: `
-      <h2>New Contact Message</h2>
-
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-
-      <h3>Message</h3>
-      <p>${message}</p>
+      <h3>New Contact Message</h3>
+      <p><b>Name:</b> ${name}</p>
+      <p><b>Email:</b> ${email}</p>
+      <p><b>Phone:</b> ${phone}</p>
+      <p><b>Message:</b><br/>${message}</p>
     `,
-  };
+  });
 
-  await transporter.sendMail(mailOptions);
-};
-
-module.exports = {
-  sendContactEmail,
+  // AUTO REPLY
+  await transporter.sendMail({
+    from: `"SD Tours & Travel" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: 'We received your message',
+    html: `
+      <p>Hi ${name},</p>
+      <p>Thank you for contacting SD Tours & Travel. We’ll reply shortly.</p>
+    `,
+  });
 };
