@@ -10,8 +10,6 @@ const storage = multer.diskStorage({
       cb(null, 'uploads/tours/');
     } else if (file.fieldname === 'testimonialImage') {
       cb(null, 'uploads/testimonials/');
-    } else if (file.fieldname === 'galleryImage') {
-      cb(null, 'uploads/gallery/');
     } else {
       cb(null, 'uploads/');
     }
@@ -35,18 +33,11 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Create upload directories if they don't exist
-const uploadDirs = [
-  path.join(__dirname, '../uploads/tours'),
-  path.join(__dirname, '../uploads/testimonials'),
-  path.join(__dirname, '../uploads/gallery')
-];
-
-uploadDirs.forEach(dir => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-});
+// Create uploads/gallery directory if it doesn't exist
+const galleryDir = path.join(__dirname, '../uploads/gallery');
+if (!fs.existsSync(galleryDir)) {
+  fs.mkdirSync(galleryDir, { recursive: true });
+}
 
 // Upload configuration
 const upload = multer({

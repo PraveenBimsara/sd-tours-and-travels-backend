@@ -28,7 +28,6 @@ app.use('/api/bookings', require('./routes/bookingRoutes'));
 app.use('/api/testimonials', require('./routes/testimonialRoutes'));
 app.use('/api/contact', require('./routes/contactRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
-app.use('/api/gallery', require('./routes/galleryRoutes')); // ✅ NEW: Gallery routes
 
 // Welcome route
 app.get('/', (req, res) => {
@@ -41,8 +40,7 @@ app.get('/', (req, res) => {
       bookings: '/api/bookings',
       testimonials: '/api/testimonials',
       contact: '/api/contact',
-      admin: '/api/admin',
-      gallery: '/api/gallery' // ✅ NEW
+      admin: '/api/admin'
     }
   });
 });
